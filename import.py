@@ -62,7 +62,7 @@ if __name__ == "__main__":
     create_folder_if_not_exists(base_folder)
     
     # Créer les sous-dossiers Image et Matrices s'ils n'existent pas
-    folder_images = os.path.join(base_folder, 'Image')
+    folder_images = os.path.join(base_folder, 'Images')
     folder_matrices = os.path.join(base_folder, 'Matrices')
     create_folder_if_not_exists(folder_images)
     create_folder_if_not_exists(folder_matrices)
