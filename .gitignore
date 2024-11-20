@@ -1,5 +1,6 @@
 # Ignore the images folder
 images/
+logs/
 
 # Optional: Ignore any log files or temporary files in the project
 *.log
