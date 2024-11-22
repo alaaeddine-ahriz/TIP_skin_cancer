@@ -121,7 +121,7 @@ def process_images_in_folder(folder_images):
         augmented_image.save(augmented_image_path)
         
         transformed_images.append(image_id)  # Ajouter l'image à la liste des images transformées
-        
+        """
         plt.figure(figsize=(15, 5))
         plt.subplot(1, 3, 1)
         plt.imshow(y, cmap='gray')
@@ -133,7 +133,7 @@ def process_images_in_folder(folder_images):
         plt.imshow(cr, cmap='plasma')
         plt.title('Chrominance (Cr)')
         plt.show()
-        
+        """
         # lecture des métadonnées de l'image
         processed_image_ids.append(image_id)
 
@@ -173,12 +173,12 @@ def read_metadata_from_file(file_path, image_ids):
     # print(metadata_dict['ISIC_9922955']) accès à une métadonnée en particulier
 
 if __name__ == "__main__":
-    folder_images = '/Users/mohamed/Documents/cours/4A/TIP/dataBase/image/'
+    folder_images = '/Users/mohamed/Documents/cours/4A/TIP/TIP_skin_cancer/DataBase/benign'
     
     processed_image_ids, transformed_images = process_images_in_folder(folder_images)
-    metadata_file = os.path.join('/Users/mohamed/Documents/cours/4A/TIP/DataBase/meta.csv.xlsx')
-    read_metadata_from_file(metadata_file, processed_image_ids)
-    print("Les matrices ont été sauvegardées dans le dossier matrices avec succès")
+    metadata_file = os.path.join('/Users/mohamed/Documents/cours/4A/TIP/TIP_skin_cancer/DataBase/benign/metadata.csv')
+  #  read_metadata_from_file(metadata_file, processed_image_ids)
+  #  print("Les matrices ont été sauvegardées dans le dossier matrices avec succès")
     
     # Afficher la liste des images transformées
     print("Images transformées :")
