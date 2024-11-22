@@ -55,58 +55,72 @@ def save_matrices_to_file(y, cb, cr, file_path):
         f.write("\nMatrice de chrominance (Cr):\n")
         np.savetxt(f, cr, fmt='%.2f')
 
-def process_images_in_folder(folder_images, num_mean_filter, num_equalizer, num_cutout):
+def process_images_in_folder(folder_images):
     processed_image_ids = []
     transformed_images = []  # Liste pour stocker les images transformées
     filenames = [f for f in os.listdir(folder_images) if f.lower().endswith('.jpg')]
-    random.shuffle(filenames)  # Randomiser l'ordre des fichiers
 
-    # Sélectionner des images aléatoires pour chaque transformation
-    mean_filter_images = random.sample(filenames, min(num_mean_filter, len(filenames)))
-    remaining_images = [f for f in filenames if f not in mean_filter_images]
-    equalizer_images = random.sample(remaining_images, min(num_equalizer, len(remaining_images)))
-    remaining_images = [f for f in remaining_images if f not in equalizer_images]
-    cutout_images = random.sample(remaining_images, min(num_cutout, len(remaining_images)))
+    # Créer des sous-dossiers pour chaque type de transformation
+    mean_filter_folder = os.path.join(folder_images, 'mean_filter')
+    equalizer_folder = os.path.join(folder_images, 'equalizer')
+    cutout_folder = os.path.join(folder_images, 'cutout')
+    os.makedirs(mean_filter_folder, exist_ok=True)
+    os.makedirs(equalizer_folder, exist_ok=True)
+    os.makedirs(cutout_folder, exist_ok=True)
 
     for filename in filenames:
         image_id = os.path.splitext(filename)[0]
         image_path = os.path.join(folder_images, filename)
-        
-        # Vérifier si l'image a déjà été transformée
-        if image_id in transformed_images:
-            continue
         
         image = load_image(image_path)
         
         # Conversion en matrices de luminance et chrominance
         y, cb, cr = rgb_to_ycbcr(image)
         
-        # Appliquer les filtres aléatoirement aux images
-        if filename in mean_filter_images:
-            y = apply_mean_filter(y)
-            cb = apply_mean_filter(cb)
-            cr = apply_mean_filter(cr)
-            transformed_images.append(image_id) 
-        elif filename in equalizer_images:
-            y = egaliseur(y)
-            cb = egaliseur(cb)
-            cr = egaliseur(cr)
-            transformed_images.append(image_id)  
-        elif filename in cutout_images:
-            y = cutout_data(y, mask_size=20)
-            cb = cutout_data(cb, mask_size=20)
-            cr = cutout_data(cr, mask_size=20)
-            transformed_images.append(image_id)  
+        # Appliquer le filtre moyenneur
+        y_mean = apply_mean_filter(y)
+        cb_mean = apply_mean_filter(cb)
+        cr_mean = apply_mean_filter(cr)
         
         # Sauvegarde des matrices dans un fichier texte
         output_folder_path = '/Users/mohamed/Documents/cours/4A/TIP/dataBase/matrices/'
-        output_file_path = os.path.join(output_folder_path, f"{image_id}_matrices.txt")
-        save_matrices_to_file(y, cb, cr, output_file_path)
+        output_file_path = os.path.join(output_folder_path, f"{image_id}_mean_matrices.txt")
+        save_matrices_to_file(y_mean, cb_mean, cr_mean, output_file_path)
         
         # Sauvegarde de l'image transformée
-        augmented_image_path = os.path.join(folder_images, f"{image_id}_augmented.jpg")
-        augmented_image = Image.fromarray(np.uint8(np.dstack((y, cb, cr))))
+        augmented_image_path = os.path.join(mean_filter_folder, f"{image_id}.jpg")
+        augmented_image = Image.fromarray(np.uint8(np.dstack((y_mean, cb_mean, cr_mean))))
         augmented_image.save(augmented_image_path)
+        
+        # Appliquer l'égaliseur
+        y_equal = egaliseur(y)
+        cb_equal = egaliseur(cb)
+        cr_equal = egaliseur(cr)
+        
+        # Sauvegarde des matrices dans un fichier texte
+        output_file_path = os.path.join(output_folder_path, f"{image_id}_equal_matrices.txt")
+        save_matrices_to_file(y_equal, cb_equal, cr_equal, output_file_path)
+        
+        # Sauvegarde de l'image transformée
+        augmented_image_path = os.path.join(equalizer_folder, f"{image_id}.jpg")
+        augmented_image = Image.fromarray(np.uint8(np.dstack((y_equal, cb_equal, cr_equal))))
+        augmented_image.save(augmented_image_path)
+        
+        # Appliquer le cutout
+        y_cutout = cutout_data(y, mask_size=20)
+        cb_cutout = cutout_data(cb, mask_size=20)
+        cr_cutout = cutout_data(cr, mask_size=20)
+        
+        # Sauvegarde des matrices dans un fichier texte
+        output_file_path = os.path.join(output_folder_path, f"{image_id}_cutout_matrices.txt")
+        #save_matrices_to_file(y_cutout, cb_cutout, cr_cutout, output_file_path)
+        
+        # Sauvegarde de l'image transformée
+        augmented_image_path = os.path.join(cutout_folder, f"{image_id}.jpg")
+        augmented_image = Image.fromarray(np.uint8(np.dstack((y_cutout, cb_cutout, cr_cutout))))
+        augmented_image.save(augmented_image_path)
+        
+        transformed_images.append(image_id)  # Ajouter l'image à la liste des images transformées
         
         plt.figure(figsize=(15, 5))
         plt.subplot(1, 3, 1)
@@ -161,12 +175,7 @@ def read_metadata_from_file(file_path, image_ids):
 if __name__ == "__main__":
     folder_images = '/Users/mohamed/Documents/cours/4A/TIP/dataBase/image/'
     
-    # Demander à l'utilisateur combien d'images traiter avec chaque filtre
-    num_mean_filter = int(input("Combien d'images avec moyenneur? "))
-    num_equalizer = int(input("Combien d'images avec égaliseur ? "))
-    num_cutout = int(input("Combien d'images avec le cutout ? "))
-    
-    processed_image_ids, transformed_images = process_images_in_folder(folder_images, num_mean_filter, num_equalizer, num_cutout)
+    processed_image_ids, transformed_images = process_images_in_folder(folder_images)
     metadata_file = os.path.join('/Users/mohamed/Documents/cours/4A/TIP/DataBase/meta.csv.xlsx')
     read_metadata_from_file(metadata_file, processed_image_ids)
     print("Les matrices ont été sauvegardées dans le dossier matrices avec succès")
