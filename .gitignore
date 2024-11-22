@@ -2,6 +2,8 @@
 images/
 logs/
 
+Data/
+
 # Optional: Ignore any log files or temporary files in the project
 *.log
 *.tmp
