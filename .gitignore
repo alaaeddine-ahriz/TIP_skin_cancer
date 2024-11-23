@@ -4,6 +4,7 @@ images-200k/
 logs/
 DataBase/
 Data/
+tfrecords/
 # Optional: Ignore any log files or temporary files in the project
 *.log
 *.tmp
