@@ -1,8 +1,9 @@
 # Ignore the images folder
 images/
 logs/
-
+DataBase/
 Data/
+tfrecords/
 
 # Optional: Ignore any log files or temporary files in the project
 *.log
