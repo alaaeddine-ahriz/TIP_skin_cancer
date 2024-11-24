@@ -4,7 +4,7 @@ logs/
 DataBase/
 Data/
 tfrecords/
-
+models/
 # Optional: Ignore any log files or temporary files in the project
 *.log
 *.tmp
