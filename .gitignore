@@ -11,3 +11,6 @@ tfrecords/
 
 # Optional: Ignore metadata files if not needed in the repository
 images/combined_metadata.csv
+
+CNN.keras
+results/
