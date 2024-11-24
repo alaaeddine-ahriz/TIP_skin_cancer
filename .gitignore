@@ -1,0 +1,10 @@
+# Ignore the images folder
+images/
+logs/
+
+# Optional: Ignore any log files or temporary files in the project
+*.log
+*.tmp
+
+# Optional: Ignore metadata files if not needed in the repository
+images/combined_metadata.csv
