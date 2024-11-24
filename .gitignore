@@ -14,3 +14,4 @@ images/combined_metadata.csv
 
 CNN.keras
 results/
+fine-tunning_40epochs.keras
