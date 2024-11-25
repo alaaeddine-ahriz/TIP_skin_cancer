@@ -1,0 +1,13 @@
+Accuracy globale : 82.87%
+Nombre total de cas bénins : 1471, Prédits correctement : 1289, Taux de réussite : 87.63%
+Nombre total de cas malins : 526, Prédits correctement : 366, Taux de réussite : 69.58%
+Faux positifs (prédits malins, mais bénins) : 182
+Faux négatifs (prédits bénins, mais malins) : 160
+
+last result 2% malin
+313/313 ━━━━━━━━━━━━━━━━━━━━ 222s 708ms/step
+Accuracy globale : 77.81%
+Nombre total de cas bénins : 9813, Prédits correctement : 7680, Taux de réussite : 78.26%
+Nombre total de cas malins : 187, Prédits correctement : 101, Taux de réussite : 54.01%
+Faux positifs (prédits malins, mais bénins) : 2133
+Faux négatifs (prédits bénins, mais malins) : 86
